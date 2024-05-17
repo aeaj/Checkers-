@@ -7,10 +7,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Checkers</h1>
-  <button onclick="initAI(gameBoard, document.getElementById('gameBoard'));">Run AI Move</button>
+    <h1>Checkers</h1>
     <div id="gameBoard"></div>
+
+    <!-- Include the MVC component scripts -->
+    <script src="/model/model.js"></script>
+    <script src="/view/view.js"></script>
+    <script src="/controller/controller.js"></script>
+    <!-- Include the main script file that initializes the game -->
     <script src="script.js"></script>
-    <script src="aiscript.js"></script>
 </body>
 </html>

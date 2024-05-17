@@ -1,34 +1,34 @@
 body {
-  display: flex; /* Centers the game board horizontally and vertically */
-  flex-direction: column; /* Aligns items vertically */
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
-  background-color: black; /* Light grey background */
-  margin: 0; /* Remove default margin */
+  height: 100vh;
+  background-color: black;
+  margin: 0;
 }
 
 h1 {
-  color: #fff; /* Dark grey color for the title */
-  font-family: 'Times New Roman', sans-serif; /* Sets the font style */
-  margin-top: 20px; /*For spacing*/
-  text-align: center; /* Centers text horizontally*/
-  margin-bottom: 20px; /* Space between title and gameboard*/
+  color: white;
+  font-family: 'Times New Roman', sans-serif;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 #gameBoard {
-  display: grid; /* Using CSS Grid to layout the board */
-  grid-template-columns: repeat(8, 50px); /* Creates 8 columns, each 50px wide */
-  grid-template-rows: repeat(8, 50px); /* Creates 8 rows, each 50px high */
-  gap: 1px; /* Spacing between cells */
-  border: 5px solid #fff; /* White border for visibility against black cells */
-  /*margin: 20px;  Optional: Adds some space around the board */
+  display: grid;
+  grid-template-columns: repeat(8, 50px); /* 8 columns, each 50px wide */
+  grid-template-rows: repeat(8, 50px); /* 8 rows, each 50px high */
+  gap: 2px; /* Ensures breaks are visible */
+  border: 5px solid white; /* Adjust as necessary */
 }
+
 
 .cell {
   width: 50px;
   height: 50px;
-  display: flex; /* Center the pieces inside the cells */
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -44,16 +44,30 @@ h1 {
 .player1, .player2 {
   width: 40px; /* Diameter of the pieces */
   height: 40px;
-  border-radius: 50%; /* Make the pieces circular */
-  display: flex; /* Center the content of the pieces (if any content is added later) */
+  border-radius: 50%; /* Circular pieces */
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .player1 {
-  background-color: green; 
+  background-color: green;
 }
 
 .player2 {
-  background-color: red; 
+  background-color: red;
+}
+
+.highlight-move {
+  border: 2px solid yellow;
+}
+
+.highlight-capture {
+  border: 2px solid red;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
