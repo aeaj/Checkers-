@@ -4,7 +4,7 @@ class GameModel {
     }
 
     setupInitialBoard() {
-   
+        // Initial setup based on your game
         return [
             [0, 2, 0, 2, 0, 2, 0, 2],
             [2, 0, 2, 0, 2, 0, 2, 0],
@@ -17,18 +17,17 @@ class GameModel {
         ];
     }
 
-    isValidPosition(row, col) {
-        return row >= 0 && col >= 0 && row < 8 && col < 8;
+    movePiece(fromRow, fromCol, toRow, toCol) {
+        if (this.isValidPosition(toRow, toCol) && this.board[toRow][toCol] === 0) {
+            // Swap positions
+            this.board[toRow][toCol] = this.board[fromRow][fromCol];
+            this.board[fromRow][fromCol] = 0;
+            return true;
+        }
+        return false;
     }
 
-    movePiece(fromRow, fromCol, toRow, toCol) {
-    gameBoard[toRow][toCol] = gameBoard[fromRow][fromCol];
-    gameBoard[fromRow][fromCol] = 0;
-    // Handle capture
-    if (overRow !== undefined && overCol !== undefined) {
-        gameBoard[overRow][overCol] = 0; // Remove the captured piece
-        console.log(`Captured piece at [${overRow}, ${overCol}]`);
-    }
-    createBoard(gameBoard, boardElement); // Re-render the board
+    isValidPosition(row, col) {
+        return row >= 0 && row < 8 && col >= 0 && col < 8;
     }
 }
