@@ -1,4 +1,25 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
+    // Create instances of the MVC components.
+    const model = new GameModel();
+    const view = new GameView();
+    const controller = new GameController(model, view);
+
+    // If you have other global actions or initializations, include them here.
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*document.addEventListener('DOMContentLoaded', () => {
     var gameBoard = setupInitialBoard();
     var boardElement = document.getElementById('gameBoard');
     createBoard(gameBoard, boardElement);
@@ -123,5 +144,5 @@ function handlePlayerMove(fromRow, fromCol, toRow, toCol, gameBoard, boardElemen
     console.log(`Player 1 moves piece from [${fromRow},${fromCol}] to [${toRow},${toCol}]`);
     // Trigger AI move
     initAI(gameBoard, boardElement);
-}
+}*/
 // Additional helper functions to manage game state
