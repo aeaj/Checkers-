@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     attachEventListeners(gameBoard, boardElement);
 });
 
+// Board
+// 1 = Spiller
+// 2 = AI/CP
+// 0 = Tomme Felter
 function setupInitialBoard() {
     return [
         [0, 0, 0, 0, 0, 0, 0, 0], // Player 2/AI (red) starts from the top
@@ -18,13 +22,14 @@ function setupInitialBoard() {
     ];
 }
 
+
 function createBoard(gameBoard, boardElement) {
     boardElement.innerHTML = ''; // Clear the board
     gameBoard.forEach((row, rowIndex) => {
         row.forEach((cell, colIndex) => {
             const cellElement = document.createElement('div');
             cellElement.className = 'cell';
-            cellElement.style.backgroundColor = (rowIndex + colIndex) % 2 === 0 ? '#FFFFFF' : '#000000';
+            cellElement.style.backgroundColor = (rowIndex + colIndex) % 2 === 0 ? '#FFFFFF' : '#000000'; //Farve på brættet
             cellElement.dataset.row = rowIndex;
             cellElement.dataset.col = colIndex;
 
