@@ -71,3 +71,9 @@ h1 {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.1); }
 }
+
+.selected {
+  border: 5px solid white;
+  box-sizing: border-box; /* Ensure border doesn't affect the size of the element */
+}
+
