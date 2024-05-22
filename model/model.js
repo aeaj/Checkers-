@@ -1,7 +1,7 @@
 class GameModel {
-  constructor() {
-    this.board = this.setupInitialBoard();
-  }
+    constructor() {
+        this.board = this.setupInitialBoard();
+    }
 
   setupInitialBoard() {
     // Initial setup based on your game
@@ -47,3 +47,4 @@ class GameModel {
     return row >= 0 && row < 8 && col >= 0 && col < 8;
   }
 }
+*/

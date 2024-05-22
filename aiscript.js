@@ -1,5 +1,5 @@
 
-
+/*
 function initAI(gameBoard, boardElement) {
     console.log("Initializing AI move...");
     
@@ -128,3 +128,4 @@ function isValidJump(fromRow, fromCol, overRow, overCol, toRow, toCol, gameBoard
 
     return isOverOpponent && isValidLanding;
 }
+*/
