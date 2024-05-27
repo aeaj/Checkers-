@@ -31,6 +31,7 @@ class GameController {
       if (this.selectedCell && (this.selectedCell.row !== row || this.selectedCell.col !== col)) {
         console.log(`Attempting to move piece from (${this.selectedCell.row}, ${this.selectedCell.col}) to (${row}, ${col})`);
          // Attempts to move the piece acording to the game rules 
+         
         if (this.model.movePiece(this.selectedCell.row, this.selectedCell.col, row, col)) {
           console.log("Move successful.");
           this.view.updateBoard(this.model.board); // Redraw board if move was successful
