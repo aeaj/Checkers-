@@ -41,7 +41,16 @@ h1 {
   background-color: #808080; /* Grey cells */
 }
 
-.player1, .player2 {
+.player1 {
+  width: 40px; /* Diameter of the pieces */
+  height: 40px;
+  border-radius: 50%; /* Circular pieces */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.player2 {
   width: 40px; /* Diameter of the pieces */
   height: 40px;
   border-radius: 50%; /* Circular pieces */

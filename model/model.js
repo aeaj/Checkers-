@@ -2,8 +2,8 @@ class GameModel {
     constructor() {
       console.log("Initializing the game model...");
       this.board = this.setupInitialBoard();
-      console.log("Initial board setup complete:");
       console.table(this.board);
+      console.log("Initial board setup complete:");
     }
   
     // Method to set up the initial game board
@@ -12,12 +12,12 @@ class GameModel {
     // 0 = Empty field
     setupInitialBoard() {
       return [
-        [0, 2, 0, 2, 0, 2, 0, 2],
-        [2, 0, 2, 0, 2, 0, 2, 0],
-        [0, 2, 0, 2, 0, 2, 0, 2],
+        [0, 0, 0, 2, 0, 2, 0, 2],
+        [2, 0, 1, 0, 2, 0, 2, 0],
+        [0, 0, 0, 2, 0, 2, 0, 2],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 0, 1, 0, 1, 0, 1, 0],
         [0, 1, 0, 1, 0, 1, 0, 1],
         [1, 0, 1, 0, 1, 0, 1, 0]
       ];
@@ -30,7 +30,7 @@ class GameModel {
       return isValid;
     }
   
-    //Method for ???
+    //Method for defining it the pieces to be king for each player
     isKing(row, col) {
       // Assuming kings are denoted by 3 and 4 for player 1 and player 2 respectively
       return this.board[row][col] === 3 || this.board[row][col] === 4;
@@ -116,37 +116,5 @@ class GameModel {
   }
 }
 
-/*class GameModel {
-    constructor() {
-        this.board = this.setupInitialBoard();
-    }
-
-    setupInitialBoard() {
-        // Initial setup based on your game
-        return [
-            [0, 2, 0, 2, 0, 2, 0, 2],
-            [2, 0, 2, 0, 2, 0, 2, 0],
-            [0, 2, 0, 2, 0, 2, 0, 2],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 0, 1, 0, 1, 0, 1, 0],
-            [0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 0, 1, 0, 1, 0, 1, 0],
-        ];
-    }
-
-    movePiece(fromRow, fromCol, toRow, toCol) {
-        if (this.isValidPosition(toRow, toCol) && this.board[toRow][toCol] === 0) {
-            // Swap positions
-            this.board[toRow][toCol] = this.board[fromRow][fromCol];
-            this.board[fromRow][fromCol] = 0;
-            return true;
-        }
-        return false;
-    }
-
-    isValidPosition(row, col) {
-        return row >= 0 && row < 8 && col >= 0 && col < 8;
-    }
-}
-*/
+//Exporting GameModel to _tests_ for testing
+module.exports = GameModel;
