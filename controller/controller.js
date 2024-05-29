@@ -1,5 +1,5 @@
-const GameModel = require("../model/model.js"); // Adjust the path as necessary
-const { minimax } = require("../algorithm/minimax.js"); // Ensure you have the minimax.js file in the AI_Algorithm folder
+import GameModel  from "../model/model.js";
+import { minimax } from "../algorithm/minimax.js"; // Ensure you have the minimax.js file in the AI_Algorithm folder
 
 class GameController {
   constructor(model, view) {
@@ -91,13 +91,16 @@ class GameController {
   aiMove() {
     console.log("AI is thinking...");
     const [evaluation, bestMove] = minimax(this.model, 3, true); // Adjust depth as necessary
+    console.log(`AI selected move with evaluation: ${evaluation}`);
     console.log(`AI selected move: ${bestMove}`);
     if (bestMove) {
       this.model.board = bestMove.board;
       this.view.updateBoard(this.model.board);
       this.switchPlayer(); // Switch back to the human player after the AI move
+    } else {
+      console.log("AI could not find a valid move.");
     }
   }
 }
 
-module.exports = GameController;
+export default GameController;

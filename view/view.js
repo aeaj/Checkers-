@@ -76,3 +76,5 @@ class GameView {
     return cellElement ? cellElement.querySelector(".piece") : null;
   }
 }
+
+export default GameView; 

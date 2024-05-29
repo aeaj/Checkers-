@@ -1,4 +1,4 @@
-const { minimax } = require("../algorithm/minimax.js"); // Adjust the path if necessary
+import { minimax } from "../algorithm/minimax.js"; 
 
 class GameModel {
   constructor() {
@@ -227,7 +227,30 @@ class GameModel {
     }
     return moves;
   }
+
+  getAllPieces(player) {
+    const pieces = [];
+    for (let row = 0; row < this.board.length; row++) {
+      for (let col = 0; col < this.board[row].length; col++) {
+        if (
+          this.board[row][col] === player ||
+          this.board[row][col] === player + 2
+        ) {
+          pieces.push([row, col]);
+        }
+      }
+    }
+    return pieces;
+  }
+
+  // Check if the game is over
+  isGameOver() {
+    // Game over logic based on remaining pieces
+    const player1Pieces = this.getAllPieces(1).length;
+    const player2Pieces = this.getAllPieces(2).length;
+    return player1Pieces === 0 || player2Pieces === 0;
+  }
 }
 
 //Exporting GameModel to Test and Controller
-module.exports = GameModel;
+export default GameModel;
