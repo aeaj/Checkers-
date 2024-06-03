@@ -2,20 +2,15 @@ import { minimax } from "../algorithm/minimax.js";
 
 class GameModel {
   constructor() {
-    console.log("Initializing the game model...");
     this.board = this.setupInitialBoard();
-    console.table(this.board);
-    console.log("Initial board setup complete:");
   }
 
-  // Method to set up the initial game board
-  // 1 = Player 1
-  // 2 = Player 2 (AI)
-  // 0 = Empty field
+  // 2D Array
+  // 1 = Player 1, 2 = Player 2, 0 = Empty field
   setupInitialBoard() {
     return [
-      [0, 0, 0, 2, 0, 2, 0, 2],
-      [2, 0, 1, 0, 2, 0, 2, 0],
+      [0, 2, 0, 2, 0, 2, 0, 2],
+      [2, 0, 2, 0, 2, 0, 2, 0],
       [0, 2, 0, 2, 0, 2, 0, 2],
       [0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0],
@@ -28,7 +23,7 @@ class GameModel {
   // Method to check if a position is valid (within the bounds of the board)
   isValidPosition(row, col) {
     const isValid = row >= 0 && row < 8 && col >= 0 && col < 8;
-    console.log(`Checking if position (${row}, ${col}) is valid: ${isValid}`);
+    //console.log(`Checking if position (${row}, ${col}) is valid: ${isValid}`);
     return isValid;
   }
 
@@ -45,7 +40,6 @@ class GameModel {
     );
 
     const piece = this.board[fromRow][fromCol];
-
     if (this.isValidPosition(toRow, toCol) && this.board[toRow][toCol] === 0) {
       console.log("Target position is valid and empty.");
 
@@ -67,7 +61,7 @@ class GameModel {
         this.board[fromRow][fromCol] = 0;
         console.log("Move successful. Updated board:");
         console.table(this.board);
-
+        
         //Check for King Promotion
         this.checkForKing(toRow, toCol);
         return true;
@@ -78,6 +72,7 @@ class GameModel {
         console.log("Attempting a jump move.");
         const middleRow = (fromRow + toRow) / 2;
         const middleCol = (fromCol + toCol) / 2;
+
         console.log(`Middle position to check: (${middleRow}, ${middleCol})`);
 
         // Check if the middle position has an opponent's piece
@@ -109,19 +104,19 @@ class GameModel {
     return false;
   }
 
-  // Method to evaluate the board
+  // Method to evaluate the board for AI
   evaluate() {
-    let evaluation = 0;
+    let evaluation = 0; // Initialize the evaluation score
+  
+    // Iterate over each row of the board
     for (let row = 0; row < this.board.length; row++) {
+      // Iterate over each column of the board
       for (let col = 0; col < this.board[row].length; col++) {
-        if (this.board[row][col] === 1) {
-          evaluation += 1;
-        } else if (this.board[row][col] === 2) {
-          evaluation -= 1;
-        } else if (this.board[row][col] === 3) {
-          evaluation += 2; // Kings are more valuable
-        } else if (this.board[row][col] === 4) {
-          evaluation -= 2;
+        // Check the type of piece at the current position
+        if (this.board[row][col] === 1 || this.board[row][col] === 3) {
+          evaluation += 1; // Both normal and king pieces for Player 1 are worth 1 point
+        } else if (this.board[row][col] === 2 || this.board[row][col] === 4) {
+          evaluation -= 1; // Both normal and king pieces for Player 2 are worth -1 point
         }
       }
     }
@@ -129,29 +124,36 @@ class GameModel {
     return evaluation;
   }
 
-  // Method to check for a winner
-  winner() {
-    let player1Pieces = 0;
-    let player2Pieces = 0;
-    for (let row = 0; row < this.board.length; row++) {
-      for (let col = 0; col < this.board[row].length; col++) {
-        if (this.board[row][col] === 1 || this.board[row][col] === 3) {
-          player1Pieces++;
-        } else if (this.board[row][col] === 2 || this.board[row][col] === 4) {
-          player2Pieces++;
-        }
+// Method to check for a winner
+winner() {
+  let player1Pieces = 0; // Initialize the counter for Player 1's pieces
+  let player2Pieces = 0; // Initialize the counter for Player 2's pieces
+
+  // Iterate over each row of the board
+  for (let row = 0; row < this.board.length; row++) {
+    for (let col = 0; col < this.board[row].length; col++) {
+      // Check the type of piece at the current position
+      if (this.board[row][col] === 1 || this.board[row][col] === 3) {
+        player1Pieces++; // Increment the counter for Player 1's pieces
+      } else if (this.board[row][col] === 2 || this.board[row][col] === 4) {
+        player2Pieces++; // Increment the counter for Player 2's pieces
       }
     }
-
-    if (player1Pieces === 0) {
-      console.log("Player 2 wins!");
-      return 2;
-    } else if (player2Pieces === 0) {
-      console.log("Player 1 wins!");
-      return 1;
-    }
-    return null;
   }
+
+  // Determine if Player 1 has no pieces left
+  if (player1Pieces === 0) {
+    console.log("Player 2 wins!"); 
+    return 2; // indicate Player 2 is the winner
+  }
+  // Determine if Player 2 has no pieces left
+  else if (player2Pieces === 0) {
+    console.log("Player 1 wins!"); 
+    return 1; // indicate Player 1 is the winner
+  }
+  // If both players still have pieces, there is no winner yet
+  return null; // Return null to indicate the game is still ongoing
+}
 
   // Method to promote a piece to a king if it reaches the opposite end
   checkForKing(row, col) {
@@ -227,6 +229,24 @@ class GameModel {
     }
     return moves;
   }
+
+  getAllPossibleMoves(player) {
+    const allMoves = [];
+  
+    // Iterate through all pieces of the current player
+    const pieces = this.getAllPieces(player);
+  
+    for (const piece of pieces) {
+      const validMoves = this.getValidMoves(this.board, piece);
+      for (const [move, skip] of Object.entries(validMoves)) {
+        const newBoard = this.simulateMove(piece, move.split(',').map(Number), this.board, skip);
+        allMoves.push(new GameModel(newBoard)); // Create a new GameModel for each possible move
+      }
+    }
+  
+    return allMoves;
+  }
+  
 
   getAllPieces(player) {
     const pieces = [];

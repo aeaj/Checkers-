@@ -53,6 +53,7 @@ class GameController {
       ) {
         console.log("Move successful.");
         this.view.updateBoard(this.model.board); // Redraw board if move was successful
+        this.switchPlayer();
         this.view.unhighlightPiece(
           this.selectedCell.row,
           this.selectedCell.col
@@ -89,12 +90,15 @@ class GameController {
 
   // Method for AI move
   aiMove() {
+    //Hvis 
     console.log("AI is thinking...");
-    const [evaluation, bestMove] = minimax(this.model, 3, true); // Adjust depth as necessary
+    const [evaluation, bestMove] = minimax(this.model, 2, true); // Adjust depth as necessary
     console.log(`AI selected move with evaluation: ${evaluation}`);
-    console.log(`AI selected move: ${bestMove}`);
+    console.log(`AI selected move: ${bestMove.board}`); //Fejl
+    console.table(bestMove.board); //Fejl
+    console.log(bestMove);
     if (bestMove) {
-      this.model.board = bestMove.board;
+      this.model.board = bestMove.board; //Fejl
       this.view.updateBoard(this.model.board);
       this.switchPlayer(); // Switch back to the human player after the AI move
     } else {
