@@ -1,70 +1,70 @@
-const RED = 2; // Constant Player 2 (AI)
-const GREEN = 1; // Constant Player 1 (Human)
+const RED = 2; //Player 2 (AI)
+const GREEN = 1; //Player 1 (Human)
 
-// Minimax with Alpha-Beta Pruning
-export function minimax(
-  position,
-  depth,
-  maxPlayer,
-  alpha = -Infinity,
-  beta = Infinity
-) {
+//Minimax
+export function minimax(position, depth,  maxPlayer,  alpha = -Infinity, beta = Infinity) {
   console.log("Minimax called with depth:", depth, "and maxPlayer:", maxPlayer);
-  console.log(position);
+  console.group("Depth " + depth);
+
   // Base case: if depth is 0 or the game is over, return the evaluation of the position
   if (depth === 0 || position.isGameOver()) {
-    const evaluation = position.evaluate();
+    const evaluation = position.evaluate(); //evaluates the current position on the board.
     console.log("Reached terminal node with evaluation:", evaluation);
-    return [evaluation, null]; // Return null for bestMove as it doesn't apply here
+    console.groupEnd();
+    return [evaluation, position]; //The return value is an array containing the evaluation score and the position.
   }
 
   let bestMove = null;
 
-  // If it's the maximizing player's turn (Player 1)
+  // Maximizing (Player 1)
   if (maxPlayer) {
-    let maxEval = -Infinity;
+    let maxEval = -Infinity; 
+    let bestMove = null; 
 
-    // Get all possible moves for GREEN
-    const moves = position.getAllPossibleMoves(GREEN);
+    const moves = position.getAllPossibleMoves(GREEN); // Gets all possible moves for Player 1
     console.log(`Maximizing player possible moves:`, moves);
 
     for (const move of moves) {
-      // Assume `move` is a new position resulting from a valid move application
-      const [evaluation] = minimax(move, depth - 1, false, alpha, beta);
+      const evaluation = minimax(move, depth - 1, false, alpha, beta)[0]; // Recursive call to minimax for minimizing player
       console.log(`Evaluation for move: ${move} = ${evaluation}`);
 
       if (evaluation > maxEval) {
-        maxEval = evaluation;
-        bestMove = move; // This needs to be the state of the game after the move
-      }
-      alpha = Math.max(alpha, evaluation);
+        maxEval = evaluation; // Updates maxEval if the current evaluation is higher
+        bestMove = move; // Updates bestMove if the current evaluation is higher
+      } 
+      //Alpha-Beta-Pruning
+      alpha = Math.max(alpha, evaluation); //Updates alpha
       if (beta <= alpha) {
         console.log("Alpha-Beta Pruning activated for maximizing player.");
-        break;
+        break; //Exits the loop early
       }
     }
-    return [maxEval, bestMove];
-  } else {
-    let minEval = Infinity;
+    console.groupEnd();
+    return [maxEval, bestMove]; // Returns the highest evaluation and the best move
+  } 
+  //Minimizing
+  else {
+    let minEval = Infinity; // Initializes minEval to infinity
+    let bestMove = null; // Initializes bestMove to null
 
-    // Get all possible moves for RED
-    const moves = position.getAllPossibleMoves(RED);
+    const moves = position.getAllPossibleMoves(RED); // Player 2
     console.log(`Minimizing player possible moves:`, moves);
 
     for (const move of moves) {
-      const [evaluation] = minimax(move, depth - 1, true, alpha, beta);
+      const evaluation = minimax(move, depth - 1, true, alpha, beta)[0];// Recursive call to minimax for maximizing player
       if (evaluation < minEval) {
-        minEval = evaluation;
-        bestMove = move; // This needs to be the state of the game after the move
-      }
-      beta = Math.min(beta, evaluation);
+        minEval = evaluation; // Updates minEval if the current evaluation is lower
+        bestMove = move; // Updates bestMove if the current evaluation is lower
+      } 
+      //Alpha Beta Pruning
+      beta = Math.min(beta, evaluation); // Updates beta
       if (beta <= alpha) {
         console.log("Alpha-Beta Pruning activated for minimizing player.");
-        break;
+        break; // Exits the loop early
       }
     }
-    return [minEval, bestMove];
+    console.groupEnd();
+    return [minEval, bestMove]; // Returns the lowest evaluation and the best move
   }
 }
-
 export default minimax;

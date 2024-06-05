@@ -1,4 +1,4 @@
-const GameModel = require('../model/model');  // Adjust the path accordingly
+const GameModel = require('../model/model.js');  // Adjust the path accordingly
 
 describe('Checkers Game Tests', () => {
   let model;

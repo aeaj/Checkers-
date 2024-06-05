@@ -2,20 +2,17 @@ import { minimax } from "../algorithm/minimax.js";
 
 class GameModel {
   constructor() {
-    console.log("Initializing the game model...");
+    console.log("Initializing Game Model");
     this.board = this.setupInitialBoard();
     console.table(this.board);
-    console.log("Initial board setup complete:");
   }
 
-  // Method to set up the initial game board
-  // 1 = Player 1
-  // 2 = Player 2 (AI)
-  // 0 = Empty field
+  // 2D Array
+  // 1 = Player 1, 2 = Player 2, 0 = Empty field
   setupInitialBoard() {
     return [
-      [0, 0, 0, 2, 0, 2, 0, 2],
-      [2, 0, 1, 0, 2, 0, 2, 0],
+      [0, 2, 0, 2, 0, 2, 0, 2],
+      [2, 0, 2, 0, 2, 0, 2, 0],
       [0, 2, 0, 2, 0, 2, 0, 2],
       [0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0],
@@ -28,7 +25,7 @@ class GameModel {
   // Method to check if a position is valid (within the bounds of the board)
   isValidPosition(row, col) {
     const isValid = row >= 0 && row < 8 && col >= 0 && col < 8;
-    console.log(`Checking if position (${row}, ${col}) is valid: ${isValid}`);
+    //console.log(`Checking if position (${row}, ${col}) is valid: ${isValid}`);
     return isValid;
   }
 
@@ -40,12 +37,9 @@ class GameModel {
 
   // Method to move a piece from one position to another
   movePiece(fromRow, fromCol, toRow, toCol) {
-    console.log(
-      `Attempting to move piece from (${fromRow}, ${fromCol}) to (${toRow}, ${toCol})...`
-    );
+    //console.log(`Attempting to move piece from (${fromRow}, ${fromCol}) to (${toRow}, ${toCol})...`);
 
     const piece = this.board[fromRow][fromCol];
-
     if (this.isValidPosition(toRow, toCol) && this.board[toRow][toCol] === 0) {
       console.log("Target position is valid and empty.");
 
@@ -78,6 +72,7 @@ class GameModel {
         console.log("Attempting a jump move.");
         const middleRow = (fromRow + toRow) / 2;
         const middleCol = (fromCol + toCol) / 2;
+
         console.log(`Middle position to check: (${middleRow}, ${middleCol})`);
 
         // Check if the middle position has an opponent's piece
@@ -85,7 +80,6 @@ class GameModel {
           this.board[middleRow][middleCol] !== 0 &&
           this.board[middleRow][middleCol] !== this.board[fromRow][fromCol]
         ) {
-          console.log("Jump move valid. Performing the jump.");
           this.board[toRow][toCol] = this.board[fromRow][fromCol];
           this.board[fromRow][fromCol] = 0;
           this.board[middleRow][middleCol] = 0;
@@ -109,19 +103,20 @@ class GameModel {
     return false;
   }
 
-  // Method to evaluate the board
+  // Method to evaluate the board for AI
   evaluate() {
-    let evaluation = 0;
+    let evaluation = 0; // Initialize the evaluation score
+
+    // Iterate over each row of the board
     for (let row = 0; row < this.board.length; row++) {
+      // Iterate over each column of the board
       for (let col = 0; col < this.board[row].length; col++) {
-        if (this.board[row][col] === 1) {
-          evaluation += 1;
-        } else if (this.board[row][col] === 2) {
-          evaluation -= 1;
-        } else if (this.board[row][col] === 3) {
-          evaluation += 2; // Kings are more valuable
-        } else if (this.board[row][col] === 4) {
-          evaluation -= 2;
+        // Check the type of piece at the current position
+
+        if (this.board[row][col] === 1 || this.board[row][col] === 3) {
+          evaluation += 1; // Both normal and king pieces for Player 1 are worth 1 point
+        } else if (this.board[row][col] === 2 || this.board[row][col] === 4) {
+          evaluation -= 1; // Both normal and king pieces for Player 2 are worth -1 point
         }
       }
     }
@@ -131,26 +126,33 @@ class GameModel {
 
   // Method to check for a winner
   winner() {
-    let player1Pieces = 0;
-    let player2Pieces = 0;
+    let player1Pieces = 0; // Initialize the counter for Player 1's pieces
+    let player2Pieces = 0; // Initialize the counter for Player 2's pieces
+
+    // Iterate over each row of the board
     for (let row = 0; row < this.board.length; row++) {
       for (let col = 0; col < this.board[row].length; col++) {
+        // Check the type of piece at the current position
         if (this.board[row][col] === 1 || this.board[row][col] === 3) {
-          player1Pieces++;
+          player1Pieces++; // Increment the counter for Player 1's pieces
         } else if (this.board[row][col] === 2 || this.board[row][col] === 4) {
-          player2Pieces++;
+          player2Pieces++; // Increment the counter for Player 2's pieces
         }
       }
     }
 
+    // Determine if Player 1 has no pieces left
     if (player1Pieces === 0) {
       console.log("Player 2 wins!");
-      return 2;
-    } else if (player2Pieces === 0) {
-      console.log("Player 1 wins!");
-      return 1;
+      return 2; // indicate Player 2 is the winner
     }
-    return null;
+    // Determine if Player 2 has no pieces left
+    else if (player2Pieces === 0) {
+      console.log("Player 1 wins!");
+      return 1; // indicate Player 1 is the winner
+    }
+    // If both players still have pieces, there is no winner yet
+    return null; // Return null to indicate the game is still ongoing
   }
 
   // Method to promote a piece to a king if it reaches the opposite end
@@ -169,80 +171,106 @@ class GameModel {
 
   // Simulate a move for Minimax algorithm
   simulateMove(from, to, board, skip) {
-    const [fromRow, fromCol] = from;
-    const [toRow, toCol] = to;
-    const piece = board[fromRow][fromCol];
+    const [fromRow, fromCol] = from; // Extracts starting row and column
+    const [toRow, toCol] = to; // Extracts destination row and column
+    const piece = board[fromRow][fromCol]; // Gets the piece at the starting position
 
-    board[fromRow][fromCol] = 0;
-    board[toRow][toCol] = piece;
+    board[fromRow][fromCol] = 0; // Clears the starting position
+    board[toRow][toCol] = piece; // Moves the piece to the destination
 
+    // If there's a piece to skip (jump over), remove it
     if (skip) {
-      const [skipRow, skipCol] = skip;
-      board[skipRow][skipCol] = 0;
+      const [skipRow, skipCol] = skip; // Extracts the row and column of the skipped piece
+      board[skipRow][skipCol] = 0; // Clears the skipped position
     }
 
-    return board;
+    return board; // Returns the updated board
   }
 
   // Get valid moves for a piece
   getValidMoves(board, piece) {
-    const [row, col] = piece;
-    const pieceType = board[row][col];
-    const moves = {};
+    const [row, col] = piece; // Extracts the piece's current row and column
+    const pieceType = board[row][col]; // Gets the type of the piece
+    const moves = {}; // Initializes an empty object to store valid moves
+    const directions = this.getDirections(pieceType); // Gets movement directions based on the piece type
 
-    // Define directions for normal pieces and kings
-    const directions =
-      pieceType === 1 || pieceType === 3
-        ? [
-            [-1, -1],
-            [-1, 1],
-          ]
-        : [];
-    const kingDirections =
-      pieceType === 2 || pieceType === 4
-        ? [
-            [1, 1],
-            [1, -1],
-          ]
-        : [];
-
-    for (const [dr, dc] of [...directions, ...kingDirections]) {
-      const newRow = row + dr;
-      const newCol = col + dc;
-      if (this.isValidPosition(newRow, newCol) && board[newRow][newCol] === 0) {
-        moves[[newRow, newCol]] = null;
-      } else if (
-        this.isValidPosition(newRow, newCol) &&
-        (board[newRow][newCol] === 1 || board[newRow][newCol] === 2)
-      ) {
-        const jumpRow = newRow + dr;
-        const jumpCol = newCol + dc;
-        if (
-          this.isValidPosition(jumpRow, jumpCol) &&
-          board[jumpRow][jumpCol] === 0
-        ) {
-          moves[[jumpRow, jumpCol]] = [newRow, newCol];
-        }
+    for (const [dr, dc] of directions) {
+      const newRow = row + dr; // Calculates the new row
+      const newCol = col + dc; // Calculates the new column
+      if (this.isValidMove(board, newRow, newCol, row, col)) {
+        moves[[newRow, newCol]] = null; // Adds a normal move to the valid moves
+      } else if (this.isJumpPossible(board, newRow, newCol, row, col, dr, dc)) {
+        const jumpRow = newRow + dr; // Calculates the jump row
+        const jumpCol = newCol + dc; // Calculates the jump column
+        moves[[jumpRow, jumpCol]] = [newRow, newCol]; // Adds a jump move to the valid moves
       }
     }
-    return moves;
+    return moves; // Returns the valid moves
   }
 
+  getDirections(pieceType) {
+    // Defines normal piece movement directions
+    const normalDirections = (pieceType === 1 || pieceType === 3) ? [[-1, -1], [-1, 1]] : [];
+    // Defines king piece movement directions
+    const kingDirections = (pieceType === 2 || pieceType === 4) ? [[1, 1], [1, -1]] : [];
+    return [...normalDirections, ...kingDirections]; // Combines and returns both sets of directions
+  }  
+
+  isValidMove(board, newRow, newCol, row, col) {
+    // Checks if the new position is within bounds and empty
+    return this.isValidPosition(newRow, newCol, row, col) && board[newRow][newCol] === 0;
+  }
+  
+
+  isJumpPossible(board, newRow, newCol, row, col, dr, dc) {
+    const middleRow = row + dr; // Calculates the middle row
+    const middleCol = col + dc; // Calculates the middle column
+    // Checks if the jump move is valid by ensuring the middle piece is an opponent's piece and the destination is empty
+    return (
+      this.isValidPosition(middleRow, middleCol) &&
+      board[middleRow][middleCol] !== 0 &&
+      board[middleRow][middleCol] !== board[row][col] &&
+      this.isValidPosition(newRow + dr, newCol + dc) &&
+      board[newRow + dr][newCol + dc] === 0
+    );
+  }
+  
+
+  getAllPossibleMoves(player) {
+    const allMoves = []; // Initializes an array to store all possible moves
+    
+    // Iterate through all pieces of the current player
+    const pieces = this.getAllPieces(player);
+    
+    for (const piece of pieces) {
+      const validMoves = this.getValidMoves(this.board, piece); // Gets valid moves for each piece
+      for (const [move, skip] of Object.entries(validMoves)) {
+        const newBoard = this.simulateMove(piece, move.split(',').map(Number), this.board, skip); // Simulates the move
+        allMoves.push(new GameModel(newBoard)); // Creates a new GameModel for each possible move
+      }
+    }
+    
+    return allMoves; // Returns all possible moves
+  }
+  
+
   getAllPieces(player) {
-    const pieces = [];
+    const pieces = []; // Initializes an array to store all pieces
     for (let row = 0; row < this.board.length; row++) {
       for (let col = 0; col < this.board[row].length; col++) {
+        // Checks if the current position contains a piece of the player
         if (
           this.board[row][col] === player ||
           this.board[row][col] === player + 2
         ) {
-          pieces.push([row, col]);
+          pieces.push([row, col]); // Adds the piece to the array
         }
       }
     }
-    return pieces;
+    return pieces; // Returns all pieces
   }
   
+<<<<<<< HEAD
   getAllPossibleMoves(player) {
     const allMoves = [];
 
@@ -266,6 +294,8 @@ class GameModel {
   }
     
 
+=======
+>>>>>>> f384b6ae49b1d936bef77259de7a56b2d74e5a82
 
   // Check if the game is over
   isGameOver() {

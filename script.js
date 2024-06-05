@@ -1,6 +1,7 @@
-import GameModel from "./model/model.js";
-import GameController from "./controller/controller.js";
-import GameView from "./view/view.js"; // Assuming you have a view.js file
+import GameModel from "../model/model.js";
+import GameView from "../view/view.js";
+import GameController from "../controller/controller.js";
+import minimax from "../algorithm/minimax.js";
 
 document.addEventListener('DOMContentLoaded', function() {
     // Create instances of the MVC components.
