@@ -2,21 +2,13 @@ const RED = 2; //Player 2 (AI)
 const GREEN = 1; //Player 1 (Human)
 
 //Minimax
-export function minimax(
-  position, //The current state of the game board.
-  depth, //The current depth in the game tree.
-  maxPlayer, //A boolean indicating if the current player is the maximizing player (true for Player 1, false for Player 2).
-  alpha = -Infinity, //The best value that the maximizing player can guarantee.
-  beta = Infinity) //The best value that the minimizing player can guarantee.
-  {
+export function minimax(position, depth,  maxPlayer,  alpha = -Infinity, beta = Infinity) {
   console.log("Minimax called with depth:", depth, "and maxPlayer:", maxPlayer);
   console.group("Depth " + depth);
 
   // Base case: if depth is 0 or the game is over, return the evaluation of the position
-  if (depth === 0 //depth === 0: Indicates we've reached the maximum depth for evaluation.
-    || position.isGameOver()) //Checks if the game has ended.
-    {
-    const evaluation = position.evaluate(); //This evaluates the current position on the board.
+  if (depth === 0 || position.isGameOver()) {
+    const evaluation = position.evaluate(); //evaluates the current position on the board.
     console.log("Reached terminal node with evaluation:", evaluation);
     console.groupEnd();
     return [evaluation, position]; //The return value is an array containing the evaluation score and the position.
@@ -24,8 +16,8 @@ export function minimax(
 
   // Maximizing (Player 1)
   if (maxPlayer) {
-    let maxEval = -Infinity; // Initialiserer maxEval til negativ uendelighed
-    let bestMove = null; // Initializes bestMove to null
+    let maxEval = -Infinity; 
+    let bestMove = null; 
 
     const moves = position.getAllPossibleMoves(GREEN); // Gets all possible moves for Player 1
     console.log(`Maximizing player possible moves:`, moves);

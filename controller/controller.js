@@ -1,5 +1,5 @@
-import GameModel  from "../model/model.js";
-import { minimax } from "../algorithm/minimax.js"; // Ensure you have the minimax.js file in the AI_Algorithm folder
+import GameModel from "../model/model.js";
+import { minimax } from "../algorithm/minimax.js"; 
 
 class GameController {
   constructor(model, view) {
@@ -89,21 +89,26 @@ class GameController {
   }
 
   // Method for AI move
-  aiMove() {
-    //Hvis 
+  async aiMove() {
     console.log("AI is thinking...");
+    
+    // Introduce a delay to simulate AI thinking time
+    await new Promise(resolve => setTimeout(resolve, 2000)); //1000 milliseconds
+
     const [evaluation, bestMove] = minimax(this.model, 2, true); // Adjust depth as necessary
     console.log(`AI selected move with evaluation: ${evaluation}`);
-    console.log(`AI selected move: ${bestMove.board}`); //Fejl
-    console.table(bestMove.board); //Fejl
-    console.log(bestMove);
-    if (bestMove) {
-      this.model.board = bestMove.board; //Fejl
-      this.view.updateBoard(this.model.board);
+    
+    if (bestMove && bestMove.board) {
+      this.updateModelAndView(bestMove.board);
       this.switchPlayer(); // Switch back to the human player after the AI move
     } else {
       console.log("AI could not find a valid move.");
     }
+  }
+
+  updateModelAndView(newBoard) {
+    this.model.board = newBoard;
+    this.view.updateBoard(this.model.board);
   }
 }
 

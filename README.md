@@ -1,14 +1,13 @@
 # Damespil med Minimax og Alpha-Beta Pruning
 
-![Screenshot af kørende applikation](screenshot.png) <!-- Sørg for at have et screenshot af din applikation i projektmappen og opdater stien hvis nødvendigt -->
+![Checkers Game](Img/Checkers.img.png)
+
+## Link til deployet udgave
+[Checkers Game](http://link-til-deployet-udgave)
 
 ## Kort beskrivelse
 
 Dette er et damespil implementeret med Model-View-Controller (MVC) mønsteret. Spillet inkluderer en AI-modstander, som bruger Minimax-algoritmen med Alpha-Beta Pruning til beslutningstagning.
-
-## Link til den deployede udgave
-
-Spillet kan spilles her: [Link til deployed udgave](http://example.com) (Erstat med det faktiske link)
 
 ## Algoritmer og datastrukturer
 
@@ -46,9 +45,5 @@ For at køre spillet lokalt:
 - Player 1: Human player
 - Player 2: AI opponent using Minimax with Alpha-Beta Pruning
 - Standard checkers rules, including mandatory jumps, king promotion, and multiple jumps.
-
-## Deployment
-
-The game is deployed and can be played [here](http://example.com). (Replace with the actual deployment link)
 
 
