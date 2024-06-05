@@ -242,6 +242,30 @@ class GameModel {
     }
     return pieces;
   }
+  
+  getAllPossibleMoves(player) {
+    const allMoves = [];
+
+    // Iterate through all pieces of the current player
+    const pieces = this.getAllPieces(player);
+
+    for (const piece of pieces) {
+      const validMoves = this.getValidMoves(this.board, piece);
+
+      for (const [move, skip] of Object.entries(validMoves)) {
+        const newBoard = this.simulateMove(piece, move.split(',').map(Number), this.board, skip);
+        allMoves.push(new GameModel(newBoard)); // Create a new GameModel for each possible move
+      }
+    }
+
+    return allMoves;
+  }
+
+  isPlayerPices(piece,player){
+    if(player==1)return[1,3]
+  }
+    
+
 
   // Check if the game is over
   isGameOver() {

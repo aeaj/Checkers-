@@ -53,6 +53,7 @@ class GameController {
       ) {
         console.log("Move successful.");
         this.view.updateBoard(this.model.board); // Redraw board if move was successful
+        this.switchPlayer();
         this.view.unhighlightPiece(
           this.selectedCell.row,
           this.selectedCell.col
