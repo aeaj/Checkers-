@@ -1,4 +1,4 @@
-const GameModel = require('../model/model.js');  // Adjust the path accordingly
+const GameModel = require('../model/model.js');  
 
 describe('Checkers Game Tests', () => {
   let model;
@@ -8,7 +8,6 @@ describe('Checkers Game Tests', () => {
   });
 
   test('green piece becomes king and moves back and forth', () => {
-    // Manually setting up the board for the test case
     model.board = [
       [0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0],

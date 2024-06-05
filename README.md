@@ -34,7 +34,6 @@ For at køre spillet lokalt:
 
 2. Åbn `index.html` i din webbrowser:
     ```bash
-    open index.html  # For macOS
     start index.html  # For Windows
     ```
 

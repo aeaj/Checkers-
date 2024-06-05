@@ -47,12 +47,10 @@ class GameView {
     });
   }
 
-  //Updates the board with current game state
   updateBoard(gameBoard) {
-    this.createBoard(gameBoard); // Redraw the board with current state
+    this.createBoard(gameBoard); 
   }
 
-  //Highlights a specific piece
   highlightPiece(row, col) {
     const piece = this.getPieceElement(row, col);
     if (piece) {
@@ -60,7 +58,6 @@ class GameView {
     }
   }
 
-  //Unhighlight a specific piece
   unhighlightPiece(row, col) {
     const piece = this.getPieceElement(row, col);
     if (piece) {

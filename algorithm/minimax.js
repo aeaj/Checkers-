@@ -11,7 +11,7 @@ export function minimax(position, depth,  maxPlayer,  alpha = -Infinity, beta = 
     const evaluation = position.evaluate(); //evaluates the current position on the board.
     console.log("Reached terminal node with evaluation:", evaluation);
     console.groupEnd();
-    return [evaluation, position]; //The return value is an array containing the evaluation score and the position.
+    return [evaluation, position]; //Return value is an array containing the evaluation score and the position.
   }
 
   // Maximizing (Player 1)
@@ -19,7 +19,7 @@ export function minimax(position, depth,  maxPlayer,  alpha = -Infinity, beta = 
     let maxEval = -Infinity; 
     let bestMove = null; 
 
-    const moves = position.getAllPossibleMoves(GREEN); // Gets all possible moves for Player 1
+    const moves = position.getAllPossibleMoves(GREEN); //Player 1 (Human)
     console.log(`Maximizing player possible moves:`, moves);
     for (const move of moves) {
       const evaluation = minimax(move, depth - 1, false, alpha, beta)[0]; // Recursive call to minimax for minimizing player
@@ -33,7 +33,7 @@ export function minimax(position, depth,  maxPlayer,  alpha = -Infinity, beta = 
       alpha = Math.max(alpha, evaluation); //Updates alpha
       if (beta <= alpha) {
         console.log("Alpha-Beta Pruning activated for maximizing player.");
-        break; //Exits the loop early
+        break; 
       }
     }
     console.groupEnd();
@@ -41,10 +41,10 @@ export function minimax(position, depth,  maxPlayer,  alpha = -Infinity, beta = 
   } 
   //Minimizing
   else {
-    let minEval = Infinity; // Initializes minEval to infinity
-    let bestMove = null; // Initializes bestMove to null
+    let minEval = Infinity; 
+    let bestMove = null; 
 
-    const moves = position.getAllPossibleMoves(RED); // Player 2
+    const moves = position.getAllPossibleMoves(RED); // Player 2 (AI)
     console.log(`Minimizing player possible moves:`, moves);
 
     for (const move of moves) {
@@ -57,7 +57,7 @@ export function minimax(position, depth,  maxPlayer,  alpha = -Infinity, beta = 
       beta = Math.min(beta, evaluation); // Updates beta
       if (beta <= alpha) {
         console.log("Alpha-Beta Pruning activated for minimizing player.");
-        break; // Exits the loop early
+        break; 
       }
     }
     console.groupEnd();

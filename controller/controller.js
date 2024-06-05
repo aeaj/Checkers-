@@ -5,22 +5,20 @@ class GameController {
   constructor(model, view) {
     this.model = model;
     this.view = view;
-    this.selectedCell = null; // Keeps track of the selected piece
+    this.selectedCell = null; 
     this.currentPlayer = 1; // Player 1 starts
     this.view.createBoard(this.model.board);
     this.attachEventListeners();
   }
 
-  // Attach event listeners to the game board
   attachEventListeners() {
-    // Ensure event listeners are attached to dynamically created elements
     this.view.boardElement.addEventListener(
       "click",
       this.handleCellClick.bind(this)
     );
   }
 
-  // Method for handling clicks on pieces and empty cells)
+  // Method for handling clicks on pieces and empty cells
   handleCellClick(event) {
     // Ensure we get the cell, not the piece inside
     const cell = event.target.closest(".cell");
@@ -35,30 +33,20 @@ class GameController {
     const piece = this.model.board[row][col];
 
     // If a piece is already selected and the click is on a different cell, try to move
-    if (
-      this.selectedCell &&
-      (this.selectedCell.row !== row || this.selectedCell.col !== col)
-    ) {
+    if (this.selectedCell && (this.selectedCell.row !== row || this.selectedCell.col !== col)) {
       console.log(
         `Attempting to move piece from (${this.selectedCell.row}, ${this.selectedCell.col}) to (${row}, ${col})`
       );
 
-      if (
-        this.model.movePiece(
-          this.selectedCell.row,
-          this.selectedCell.col,
-          row,
-          col
-        )
-      ) {
+      if ( this.model.movePiece(this.selectedCell.row, this.selectedCell.col, row, col)) {
         console.log("Move successful.");
         this.view.updateBoard(this.model.board); // Redraw board if move was successful
         this.switchPlayer();
         this.view.unhighlightPiece(
           this.selectedCell.row,
           this.selectedCell.col
-        ); // Unhighlight the previously selected piece
-        this.selectedCell = null; // Reset selected piece after move
+        ); 
+        this.selectedCell = null;
       } else {
         console.log("Move failed.");
       }
@@ -95,7 +83,7 @@ class GameController {
     // Introduce a delay to simulate AI thinking time
     await new Promise(resolve => setTimeout(resolve, 2000)); //1000 milliseconds
 
-    const [evaluation, bestMove] = minimax(this.model, 2, true); // Adjust depth as necessary
+    const [evaluation, bestMove] = minimax(this.model, 2, true); // depth is = 2 and may have to adjust
     console.log(`AI selected move with evaluation: ${evaluation}`);
     
     if (bestMove && bestMove.board) {

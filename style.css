@@ -18,10 +18,10 @@ h1 {
 
 #gameBoard {
   display: grid;
-  grid-template-columns: repeat(8, 50px); /* 8 columns, each 50px wide */
-  grid-template-rows: repeat(8, 50px); /* 8 rows, each 50px high */
-  gap: 2px; /* Ensures breaks are visible */
-  border: 5px solid white; /* Adjust as necessary */
+  grid-template-columns: repeat(8, 50px); 
+  grid-template-rows: repeat(8, 50px); 
+  gap: 2px; 
+  border: 5px solid white; 
 }
 
 
@@ -34,26 +34,26 @@ h1 {
 }
 
 .cell:nth-child(odd) {
-  background-color: #000; /* Black cells */
+  background-color: #000; 
 }
 
 .cell:nth-child(even) {
-  background-color: #808080; /* Grey cells */
+  background-color: #808080; 
 }
 
 .player1 {
-  width: 40px; /* Diameter of the pieces */
+  width: 40px; 
   height: 40px;
-  border-radius: 50%; /* Circular pieces */
+  border-radius: 50%; 
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .player2 {
-  width: 40px; /* Diameter of the pieces */
+  width: 40px; 
   height: 40px;
-  border-radius: 50%; /* Circular pieces */
+  border-radius: 50%; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,6 +84,6 @@ h1 {
 
 .selected {
   border: 5px solid white;
-  box-sizing: border-box; /* Ensure border doesn't affect the size of the element */
+  box-sizing: border-box; 
 }
 
