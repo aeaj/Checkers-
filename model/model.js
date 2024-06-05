@@ -270,7 +270,7 @@ class GameModel {
     return pieces; // Returns all pieces
   }
   
-<<<<<<< HEAD
+
   getAllPossibleMoves(player) {
     const allMoves = [];
 
@@ -294,8 +294,7 @@ class GameModel {
   }
     
 
-=======
->>>>>>> f384b6ae49b1d936bef77259de7a56b2d74e5a82
+
 
   // Check if the game is over
   isGameOver() {
