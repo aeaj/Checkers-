@@ -1,9 +1,9 @@
 import { minimax } from "../algorithm/minimax.js"; 
 
 class GameModel {
-  constructor() {
+  constructor(board = null) {
     console.log("Initializing Game Model");
-    this.board = this.setupInitialBoard();
+    this.board = board ? board : this.setupInitialBoard();
     console.table(this.board);
   }
 
@@ -172,57 +172,56 @@ class GameModel {
   // Simulate a move for Minimax algorithm
   simulateMove(from, to, board, skip) {
     const [fromRow, fromCol] = from;
-    const [toRow, toCol] = to; 
-    const piece = board[fromRow][fromCol]; 
+    const [toRow, toCol] = to;
+    const piece = board[fromRow][fromCol];
 
-    board[fromRow][fromCol] = 0; 
-    board[toRow][toCol] = piece; 
+    const newBoard = board.map(row => row.slice()); // Clone the board
+    newBoard[fromRow][fromCol] = 0;
+    newBoard[toRow][toCol] = piece;
 
-    // If there's a piece to skip (jump over), remove it
     if (skip) {
-      const [skipRow, skipCol] = skip; 
-      board[skipRow][skipCol] = 0; 
+      const [skipRow, skipCol] = skip;
+      newBoard[skipRow][skipCol] = 0;
     }
-    return board; 
+    return newBoard;
   }
 
   // Get valid moves for a piece
   getValidMoves(board, piece) {
-    const [row, col] = piece; 
-    const pieceType = board[row][col]; 
-    const moves = {}; 
-    const directions = this.getDirections(pieceType); 
+    const [row, col] = piece;
+    const pieceType = board[row][col];
+    const moves = {};
+    const directions = this.getDirections(pieceType);
 
-    //Calculates new move for row, col and jumpmoves
     for (const [dr, dc] of directions) {
-      const newRow = row + dr; 
-      const newCol = col + dc; 
+      const newRow = row + dr;
+      const newCol = col + dc;
       if (this.isValidMove(board, newRow, newCol, row, col)) {
-        moves[[newRow, newCol]] = null; 
+        moves[[newRow, newCol]] = null;
       } else if (this.isJumpPossible(board, newRow, newCol, row, col, dr, dc)) {
         const jumpRow = newRow + dr;
-        const jumpCol = newCol + dc; 
-        moves[[jumpRow, jumpCol]] = [newRow, newCol]; 
+        const jumpCol = newCol + dc;
+        moves[[jumpRow, jumpCol]] = [newRow, newCol];
       }
     }
-    return moves; 
+    return moves;
   }
 
   getDirections(pieceType) {
     const normalDirections = (pieceType === 1 || pieceType === 3) ? [[-1, -1], [-1, 1]] : [];
     const kingDirections = (pieceType === 2 || pieceType === 4) ? [[1, 1], [1, -1]] : [];
-    return [...normalDirections, ...kingDirections]; 
-  }  
+    return [...normalDirections, ...kingDirections];
+  } 
 
   isValidMove(board, newRow, newCol, row, col) {
-    return this.isValidPosition(newRow, newCol, row, col) && board[newRow][newCol] === 0;
+    return this.isValidPosition(newRow, newCol) && board[newRow][newCol] === 0;
   }
+
   
   //Calculates moddle row and middle column
   isJumpPossible(board, newRow, newCol, row, col, dr, dc) {
-    const middleRow = row + dr; 
-    const middleCol = col + dc; 
-    // Checks if the jump move is valid by ensuring the middle piece is an opponent's piece and the destination is empty
+    const middleRow = row + dr;
+    const middleCol = col + dc;
     return (
       this.isValidPosition(middleRow, middleCol) &&
       board[middleRow][middleCol] !== 0 &&
@@ -247,22 +246,17 @@ class GameModel {
     
     return allMoves;
   }
-  
 
   getAllPieces(player) {
-    const pieces = []; // Initializes an array to store all pieces
+    const pieces = [];
     for (let row = 0; row < this.board.length; row++) {
       for (let col = 0; col < this.board[row].length; col++) {
-        // Checks if the current position contains a piece of the player
-        if (
-          this.board[row][col] === player ||
-          this.board[row][col] === player + 2
-        ) {
-          pieces.push([row, col]); // Adds the piece to the array
+        if (this.board[row][col] === player || this.board[row][col] === player + 2) {
+          pieces.push([row, col]);
         }
       }
     }
-    return pieces; 
+    return pieces;
   }
   
 
@@ -273,5 +267,4 @@ class GameModel {
     return player1Pieces === 0 || player2Pieces === 0;
   }
 }
-
 export default GameModel;
