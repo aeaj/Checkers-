@@ -41,10 +41,26 @@ class GameController {
 
   // Method to switch to the next player
   switchPlayer() {
+    if (this.model.isGameOver() !== null) {
+      this.handleGameOver();
+      return;
+    }
+
     this.currentPlayer = this.currentPlayer === 1 ? 2 : 1;
     if (this.currentPlayer === 2) {
       this.aiMove();
     }
+  }
+
+  handleGameOver() {
+    const winner = this.model.isGameOver();
+    if (winner === 1) {
+      alert("Game over! Player 1 (Green) wins!");
+    } else if (winner === 2) {
+      alert("Game over! Player 2 (Red) wins!");
+    }
+
+    // Optionally, reset the game or disable further moves
   }
 
   // Method for AI move
@@ -62,7 +78,12 @@ class GameController {
   updateModelAndView(newBoard) {
     this.model.board = newBoard;
     this.view.updateBoard(this.model.board);
+
+    if (this.model.isGameOver() !== null) {
+      this.handleGameOver();
+    }
   }
+
 
   // Method to attach event listeners to the view
   attachEventListeners() {

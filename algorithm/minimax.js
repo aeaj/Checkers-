@@ -3,8 +3,13 @@ const GREEN = 1; //Player 1 (Human)
 
 //Minimax
 export function minimax(position, depth, maxPlayer, alpha = -Infinity, beta = Infinity) {
-  if (depth === 0 || position.isGameOver()) {
+  console.log("Minimax called with depth:", depth, "and maxPlayer:", maxPlayer);
+  console.group("Depth " + depth);
+
+  if (depth === 0 || position.isGameOver() !== null) {
     const evaluation = position.evaluate();
+    console.log("Reached terminal node with evaluation:", evaluation);
+    console.groupEnd();
     return [evaluation, position];
   }
 

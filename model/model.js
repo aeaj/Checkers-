@@ -248,11 +248,34 @@ class GameModel {
     return pieces;
   }
 
-  // Check if the game is over
   isGameOver() {
+    const player1HasMoves = this.hasValidMoves(1);
+    const player2HasMoves = this.hasValidMoves(2);
+
     const player1Pieces = this.getAllPieces(1).length;
     const player2Pieces = this.getAllPieces(2).length;
-    return player1Pieces === 0 || player2Pieces === 0;
+
+    if (player1Pieces === 0 || !player1HasMoves) {
+      console.log("Player 2 wins!");
+      return 2; // Player 2 wins
+    }
+
+    if (player2Pieces === 0 || !player2HasMoves) {
+      console.log("Player 1 wins!");
+      return 1; // Player 1 wins
+    }
+
+    return null; // Game is not over
+  }
+  hasValidMoves(player) {
+    const pieces = this.getAllPieces(player);
+    for (const piece of pieces) {
+      const validMoves = this.getValidMoves(this.board, piece);
+      if (Object.keys(validMoves).length > 0) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 export default GameModel;
