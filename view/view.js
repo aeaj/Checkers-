@@ -5,47 +5,42 @@ class GameView {
     this.boardElement = document.getElementById("gameBoard");
   }
 
-  //Creates the board and configures the pieces
+  // Creates the board and configures the pieces
   createBoard(gameBoard) {
-    // Clears the existing board
     this.boardElement.innerHTML = "";
     gameBoard.forEach((row, rowIndex) => {
-      row.forEach((cell, colIndex) => {
-        const cellElement = document.createElement("div");
-        cellElement.className = "cell";
+        row.forEach((cell, colIndex) => {
+            const cellElement = document.createElement("div");
+            cellElement.className = "cell";
 
-        //Alternates cell colors in the gameboard between gray and black
-        cellElement.style.backgroundColor =
-          (rowIndex + colIndex) % 2 === 0 ? "#808080" : "#000";
-        cellElement.dataset.row = rowIndex;
-        cellElement.dataset.col = colIndex;
+            cellElement.style.backgroundColor =
+                (rowIndex + colIndex) % 2 === 0 ? "#808080" : "#000";
+            cellElement.dataset.row = rowIndex;
+            cellElement.dataset.col = colIndex;
 
-        if (cell === 1 || cell === 2 || cell === 3 || cell === 4) {
-          const pieceElement = document.createElement("div");
-          pieceElement.className = `player${cell} piece`;
+            if (cell === 1 || cell === 2 || cell === 3 || cell === 4) {
+                const pieceElement = document.createElement("div");
+                pieceElement.className = `player${cell} piece`;
 
-          //Dimensions and shape for pieces
-          pieceElement.style.width = "40px";
-          pieceElement.style.height = "40px";
-          pieceElement.style.borderRadius = "50%";
+                pieceElement.style.width = "40px";
+                pieceElement.style.height = "40px";
+                pieceElement.style.borderRadius = "50%";
 
-          //Set background color based on piece type for player 1 and 2
-          if (cell === 1 || cell === 3) {
-            pieceElement.style.backgroundColor = "green";
-          } else if (cell === 2 || cell === 4) {
-            pieceElement.style.backgroundColor = "red";
-          }
+                if (cell === 1 || cell === 3) {
+                    pieceElement.style.backgroundColor = "green";
+                } else if (cell === 2 || cell === 4) {
+                    pieceElement.style.backgroundColor = "red";
+                }
 
-          //Set indicator for king pieces for player 1 and 2
-          if (cell === 3 || cell === 4) {
-            pieceElement.style.border = "4px solid gold";
-          }
-          cellElement.appendChild(pieceElement);
-        }
-        this.boardElement.appendChild(cellElement);
-      });
+                if (cell === 3 || cell === 4) {
+                    pieceElement.style.border = "4px solid gold";
+                }
+                cellElement.appendChild(pieceElement);
+            }
+            this.boardElement.appendChild(cellElement);
+        });
     });
-  }
+}
 
   updateBoard(gameBoard) {
     this.createBoard(gameBoard); 
@@ -65,7 +60,7 @@ class GameView {
     }
   }
 
-  //Retrieves the piece element at the specified position
+  // Retrieves the piece element at the specified position
   getPieceElement(row, col) {
     const cellElement = this.boardElement.querySelector(
       `[data-row="${row}"][data-col="${col}"]`
@@ -74,4 +69,4 @@ class GameView {
   }
 }
 
-export default GameView; 
+export default GameView;
