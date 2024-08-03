@@ -85,15 +85,18 @@ class GameModel {
     // Iterate over each row of the board
     for (let row = 0; row < this.board.length; row++) {
       for (let col = 0; col < this.board[row].length; col++) {
-        
-        // Check the type of piece at the current position
-        if (this.board[row][col] === 1 || this.board[row][col] === 3) {
-          evaluation += 1; // Both normal and king pieces for Player 1 are worth 1 point
-        } else if (this.board[row][col] === 2 || this.board[row][col] === 4) {
-          evaluation -= 1; // Both normal and king pieces for Player 2 are worth -1 point
+        if (this.board[row][col] === 1) {
+          evaluation += 5; // Normal piece for Player 1
+        } else if (this.board[row][col] === 3) {
+          evaluation += 10; // King for Player 1
+        } else if (this.board[row][col] === 2) {
+          evaluation -= 5; // Normal piece for Player 2
+        } else if (this.board[row][col] === 4) {
+          evaluation -= 10; // King for Player 2
         }
       }
     }
+
     console.log(`Board evaluation: ${evaluation}`);
     return evaluation;
   }
@@ -173,18 +176,27 @@ class GameModel {
     const directions = this.getDirections(pieceType);
 
     for (const [dr, dc] of directions) {
-        const newRow = row + dr;
-        const newCol = col + dc;
-        if (this.isValidMove(board, newRow, newCol, row, col)) {
-            moves[[newRow, newCol]] = null;
-        } else if (this.isJumpPossible(board, newRow, newCol, row, col, dr, dc)) {
-            const jumpRow = newRow + dr;
-            const jumpCol = newCol;
-            moves[[jumpRow, jumpCol]] = [newRow, newCol];
-        }
+      const newRow = row + dr;
+      const newCol = col + dc;
+      if (this.isValidMove(board, newRow, newCol, row, col)) {
+        moves[[newRow, newCol]] = null;
+      } else if (this.isJumpPossible(board, newRow, newCol, row, col, dr, dc)) {
+        const jumpRow = newRow + dr;
+        const jumpCol = newCol + dc;
+        moves[[jumpRow, jumpCol]] = [newRow, newCol];
+      }
     }
-    return moves;
-}
+
+    // Ensure moves land on black tiles
+    return Object.keys(moves).reduce((validMoves, move) => {
+      const [moveRow, moveCol] = move.split(',').map(Number);
+      if ((moveRow + moveCol) % 2 !== 0) {
+        validMoves[move] = moves[move];
+      }
+      return validMoves;
+    }, {});
+  }
+
 
   getDirections(pieceType) {
     if (pieceType === 1) return [[-1, -1], [-1, 1]]; // Normal piece for Player 1
@@ -194,7 +206,7 @@ class GameModel {
   }
 
   isValidMove(board, newRow, newCol, row, col) {
-    return this.isValidPosition(newRow, newCol) && board[newRow][newCol] === 0;
+    return this.isValidPosition(newRow, newCol) && board[newRow][newCol] === 0 && (newRow + newCol) % 2 !== 0;
   }
 
   
@@ -202,24 +214,15 @@ class GameModel {
   isJumpPossible(board, newRow, newCol, row, col, dr, dc) {
     const middleRow = row + dr;
     const middleCol = col + dc;
-    console.log(`Checking jump: from (${row}, ${col}) to (${newRow}, ${newCol}), middle: (${middleRow}, ${middleCol})`);
-    
-    if (!this.isValidPosition(middleRow, middleCol)) {
-        console.log(`Invalid position for jump: middleRow=${middleRow}, middleCol=${middleCol}`);
-        return false;
-    }
-    
-    const middlePiece = board[middleRow][middleCol];
-    const currentPiece = board[row][col];
-    const isOpponentPiece = middlePiece !== 0 && (middlePiece % 2 !== currentPiece % 2);
-    console.log(`Middle piece value: ${middlePiece}, Current piece value: ${currentPiece}, Is opponent: ${isOpponentPiece}`);
-    
     return (
-        isOpponentPiece &&
-        this.isValidPosition(newRow + dr, newCol + dc) &&
-        board[newRow + dr][newCol + dc] === 0
+      this.isValidPosition(middleRow, middleCol) &&
+      board[middleRow][middleCol] !== 0 &&
+      board[middleRow][middleCol] !== board[row][col] &&
+      this.isValidPosition(newRow + dr, newCol + dc) &&
+      board[newRow + dr][newCol + dc] === 0 &&
+      (newRow + dr + newCol + dc) % 2 !== 0
     );
-}
+  }
 
   getAllPossibleMoves(player) {
     const allMoves = []; // Initializes an array to store all possible moves
