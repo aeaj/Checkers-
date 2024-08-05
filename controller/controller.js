@@ -7,13 +7,15 @@ class GameController {
     this.view = view;
     this.currentPlayer = 1; // Player 1 starts (Green)
     this.selectedCell = null; 
+    this.gameOver = false; // Add game over flag
     this.view.createBoard(this.model.board); // Initialize the board view
     this.attachEventListeners();
   }
 
   // Method for handling clicks on pieces and empty cells
   handleCellClick(event) {
-    // Ensure we get the cell, not the piece inside
+    if (this.gameOver) return; // Check game over flag
+
     const cell = event.target.closest(".cell");
     if (!cell) return;
 
@@ -60,6 +62,8 @@ class GameController {
       alert("Game over! Player 2 (Red) wins!");
     }
 
+    this.gameOver = true; // Set game over flag
+
     // Optionally, reset the game or disable further moves
   }
 
@@ -83,7 +87,6 @@ class GameController {
       this.handleGameOver();
     }
   }
-
 
   // Method to attach event listeners to the view
   attachEventListeners() {
