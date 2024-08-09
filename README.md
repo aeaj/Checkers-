@@ -43,6 +43,6 @@ For at køre spillet lokalt:
 
 - Player 1: Human player
 - Player 2: AI opponent using Minimax with Alpha-Beta Pruning
-- Standard checkers rules, including mandatory jumps, king promotion, and multiple jumps.
+- Standard checkers rules, with no mandatory jumps, king promotion, and 1 jump at a time.
 
 
