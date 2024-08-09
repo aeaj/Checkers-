@@ -22,22 +22,7 @@ Minimax-algoritmen bruges til at finde det bedste træk ved at simulere alle mul
   Kongebrik for spiller 2 (4),
   Eller et tomt felt (0).
 
-## Sådan kører du visualiseringen lokalt
-
-For at køre spillet lokalt:
-
-1. Klon repositoriet:
-    ```bash
-    git clone https://github.com/aeaj/Checkers-.git
-    cd checkers-game
-    ```
-
-2. Åbn `index.html` i din webbrowser:
-    ```bash
-    start index.html  # For Windows
-    ```
-
-3. Spil spillet!
+## Spil spillet ved at trykke på på den deployed udgave
 
 ## Features
 
