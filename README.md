@@ -26,8 +26,8 @@ Minimax-algoritmen bruges til at finde det bedste træk ved at simulere alle mul
 
 ## Features
 
-- Player 1: Human player
-- Player 2: AI opponent using Minimax with Alpha-Beta Pruning
-- Standard checkers rules, with no mandatory jumps, king promotion, and 1 jump at a time.
+- Spiller 1: Menneskelig spiller
+- Spiller 2: AI Modstander bruger Minimax med Alpha-Beta Pruning
+- Standard Dam regler, med ingen obligatorisk hop og kun 1 hop af gangen.
 
 
