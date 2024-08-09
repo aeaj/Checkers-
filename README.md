@@ -1,9 +1,9 @@
-# Damespil med Minimax og Alpha-Beta Pruning
+# Damspil med Minimax og Alpha-Beta Pruning
 
 ![Checkers Game](Img/Checkers.img.png)
 
 ## Link til deployet udgave
-[Checkers Game](http://link-til-deployet-udgave)
+[Checkers Game](https://aeaj.github.io/Checkers-/)
 
 ## Kort beskrivelse
 
