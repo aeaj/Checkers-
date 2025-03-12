@@ -7,7 +7,7 @@
 
 ## Kort beskrivelse
 
-Dette er et damespil implementeret med Model-View-Controller (MVC) mønsteret. Spillet inkluderer en AI-modstander, som bruger Minimax-algoritmen med Alpha-Beta Pruning til beslutningstagning.
+Damspil implementeret med Model-View-Controller (MVC) mønsteret. Spillet inkluderer en AI-modstander, som bruger Minimax-algoritmen med Alpha-Beta Pruning til beslutningstagning.
 
 ## Algoritmer og datastrukturer
 
@@ -29,5 +29,4 @@ Minimax-algoritmen bruges til at finde det bedste træk ved at simulere alle mul
 - Spiller 1: Menneskelig spiller
 - Spiller 2: AI Modstander bruger Minimax med Alpha-Beta Pruning
 - Standard Dam regler, med ingen obligatorisk hop og kun 1 hop af gangen.
-
 
